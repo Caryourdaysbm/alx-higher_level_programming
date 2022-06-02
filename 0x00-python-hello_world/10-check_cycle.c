@@ -1,67 +1,21 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
- * _realloc - Reallocates a memory block
- * @ptr: The pointer to the previous memory block
- * @old_size: The size of the old memory block
- * @new_size: The size of the new memory block
- * Return: The pointer to new momory block otherwis NULL
+ * check_cycle - checks if a singly linked list has a cycle in it
+ *
+ * @list: pointer to d head of d list
+ * Return: 1 if there is a cycle, 0 if there is not
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
-{
-void *new_ptr;
-unsigned int min_size = old_size <  new_size ? old_size : new_size;
-unsigned int i;
-
-
-if (new_size == old_size)
-return (ptr);
-if (ptr != NULL)
-{
-if (new_size == 0)
-{
-free(ptr);
-retuurn (NULL);
-}
-new_ptr = malloc(new_size);
-if (new_ptr != NULL)
-{
-for (i = 0; i < min_sie; i++)
-*((char *)new_ptr + i) = *((char *)ptr + i);
-free(ptr);
-return (new_ptr);
-}
-free(ptr);
-return (NULL);
-}
-else
-{
-new_ptr = malloc(new_size);
-return (new_ptr);
-}
-}
-
-/**
- * check_cycle - checks if a single linked list has a cycle in it
- * @list: list head
- * Return: 0 if no, 1 if yes
- */
-
 int check_cycle(listint_t *list)
 {
-listint_t *fast, *slow = list;
-
-if (list == NULL)
-return (0);
-
-fast = list->next;
-while (slow != NULL && fast != NULL && fast->next != NULL)
+listint_t *slow = list;
+listint_t *fast = list;
+while (slow && fast && fast->next)
 {
+slow = slow->next;
+fast = fast->next->next;
 if (slow == fast)
 return (1);
-fast = fast->next->next;
-slow = slow->next;
 }
 return (0);
 }
